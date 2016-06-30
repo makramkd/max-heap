@@ -1,8 +1,11 @@
 import java.util.Arrays;
 
 public class MaxHeap {
+    private static final int INIT_SIZE = 64;
+
     /*
-    The backing array store of the heap.
+    The backing array store of the heap. We're using vanilla arrays
+    because they make the code look much cleaner.
      */
     private int[] array;
     /*
@@ -10,10 +13,28 @@ public class MaxHeap {
      */
     private int heapSize;
 
+    /*
+    Construct an empty heap. This is the constructor you would use if you have a
+    priority queue being maintained.
+     */
     public MaxHeap() {
-
+        this.array = new int[INIT_SIZE];
+        this.heapSize = 0;
     }
 
+    /*
+    Construct an empty heap, and initialize the capacity of its backing array.
+    Given a good value to capacity, resizing the array might never have to be done.
+     */
+    public MaxHeap(int capacity) {
+        this.array = new int[capacity];
+        this.heapSize = 0;
+    }
+
+    /*
+    Construct a max heap out of the given array. The array doesn't have to satisfy
+    the max-heap ordering (in fact, we expect it not to).
+     */
     public MaxHeap(int[] array) {
         this.array = new int[array.length];
         System.arraycopy(array, 0, this.array, 0, array.length);
@@ -117,6 +138,7 @@ public class MaxHeap {
 
         /*
         Second step: the selection sort idea; take the max and place it at the end.
+        Every time we put the max at the end, we need to restore the max-heap property.
          */
         for (int i = arr.length - 1; i > 0; i--) {
             // swap arr[0] with arr[i]
@@ -152,6 +174,10 @@ public class MaxHeap {
         return max;
     }
 
+    /*
+    Increase the value of a key at a given index in the heap. This is mostly just a helper
+    method to be used in the add method.
+     */
     public void increaseKey(int i, int key) throws SmallKeyException {
         if (key < array[i]) {
             throw new SmallKeyException("The new key is smaller than current key.");
@@ -165,6 +191,9 @@ public class MaxHeap {
         }
     }
 
+    /*
+    Add a new key to this heap. This mutates the heap, but after completion, is still a max-heap.
+     */
     public void add(int key) {
         heapSize++;
         if (heapSize > array.length) {
@@ -178,6 +207,10 @@ public class MaxHeap {
         }
     }
 
+    /*
+    Return the string representation of this max-heap. Since the array
+    is often bigger than the heap, we need to manually construct this string.
+     */
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append('[');
@@ -191,6 +224,10 @@ public class MaxHeap {
         return builder.toString();
     }
 
+    /*
+    Resize the underlying array store to double its current size. This is the same
+    idea used in vectors.
+     */
     private void resizeArray() {
         int[] arr = array;
         array = new int[arr.length * 2];
