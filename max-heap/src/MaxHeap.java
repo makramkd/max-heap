@@ -102,6 +102,34 @@ public class MaxHeap {
         }
     }
 
+    /*
+    Pre-condition:
+        - the given array is an array of integers that is unsorted (or sorted).
+    Post-condition:
+        - the returned array is sorted.
+     */
+    public static int[] heapsort(int[] a) {
+        /*
+        First step: construct a max heap with the elements of A.
+         */
+        MaxHeap heap = new MaxHeap(a);
+        int[] arr = heap.array;
+
+        /*
+        Second step: the selection sort idea; take the max and place it at the end.
+         */
+        for (int i = arr.length - 1; i > 0; i--) {
+            // swap arr[0] with arr[i]
+            int temp = arr[0];
+            arr[0] = arr[i];
+            arr[i] = temp;
+            heap.heapSize--;
+            heap.maxHeapify(0);
+        }
+
+        return arr;
+    }
+
     public String toString() {
         return Arrays.toString(array);
     }
