@@ -13,6 +13,14 @@ public class Main {
         System.out.println(max);
         System.out.println(maxHeap);
 
+        maxHeap.add(16);
+
+        System.out.println(maxHeap);
+
+        // add so that its out of range
+        maxHeap.add(17);
+        System.out.println(maxHeap);
+
         int[] sorted = MaxHeap.heapsort(new int[]{4, 1, 3, 2, 16, 9, 10, 14, 8, 7});
         System.out.println(Arrays.toString(sorted));
     }

@@ -172,7 +172,7 @@ public class MaxHeap {
         }
         array[heapSize - 1] = Integer.MIN_VALUE;
         try {
-            increaseKey(heapSize, key);
+            increaseKey(heapSize - 1, key);
         } catch (SmallKeyException ignored) {
 
         }
