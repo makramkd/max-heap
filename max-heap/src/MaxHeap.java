@@ -130,7 +130,71 @@ public class MaxHeap {
         return arr;
     }
 
+    /*
+    Return the maximum valued element in the max-heap.
+     */
+    public int max() {
+        return array[0];
+    }
+
+    /*
+    Extract the maximum valued element in the max-heap and return it.
+    This mutates the heap.
+     */
+    public int extractMax() throws EmptyHeapException {
+        if (heapSize < 1) {
+            throw new EmptyHeapException("Heap underflow");
+        }
+        int max = max();
+        array[0] = array[heapSize - 1];
+        heapSize--;
+        maxHeapify(0);
+        return max;
+    }
+
+    public void increaseKey(int i, int key) throws SmallKeyException {
+        if (key < array[i]) {
+            throw new SmallKeyException("The new key is smaller than current key.");
+        }
+        array[i] = key;
+        while (i > 0 && array[parent(i)] < array[i]) {
+            int temp = array[i];
+            array[i] = array[parent(i)];
+            array[parent(i)] = temp;
+            i = parent(i);
+        }
+    }
+
+    public void add(int key) {
+        heapSize++;
+        if (heapSize > array.length) {
+            resizeArray();
+        }
+        array[heapSize - 1] = Integer.MIN_VALUE;
+        try {
+            increaseKey(heapSize, key);
+        } catch (SmallKeyException ignored) {
+
+        }
+    }
+
     public String toString() {
-        return Arrays.toString(array);
+        StringBuilder builder = new StringBuilder();
+        builder.append('[');
+        for (int i = 0; i < heapSize; ++i) {
+            builder.append(array[i]);
+            if (i < heapSize - 1) {
+                builder.append(", ");
+            }
+        }
+        builder.append(']');
+        return builder.toString();
+    }
+
+    private void resizeArray() {
+        int[] arr = array;
+        array = new int[arr.length * 2];
+        // copy elements over
+        System.arraycopy(arr, 0, array, 0, arr.length);
     }
 }
